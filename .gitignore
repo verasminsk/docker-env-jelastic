@@ -1,0 +1,15 @@
+/.idea/*
+/.base/*
+/db_init/*
+!/db_init/01-init-db.sql
+/docker-env-jelastic/nginx-php/nginx-conf/sites-enabled/*
+!/docker-env-jelastic/nginx-php/nginx-conf/sites-enabled/default.conf
+!/docker-env-jelastic/nginx-php/nginx-conf/sites-enabled/symfony-site.conf
+!/docker-env-jelastic/nginx-php/nginx-conf/sites-enabled/yii-site.conf
+/_commands_*/
+!/_commands_symfony/
+!/_commands_docker/
+/app/*
+!/app/default/
+!/app/symfony/
+!/app/yii/

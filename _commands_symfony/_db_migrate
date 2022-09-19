@@ -1,0 +1,7 @@
+#!/bin/bash
+source ./my-docker.cfg
+cd $envPath
+   docker-compose exec $workDir web php bin/console doctrine:migrations:migrate
+cd ..
+
+

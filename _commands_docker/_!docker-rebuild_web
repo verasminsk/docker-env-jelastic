@@ -1,0 +1,11 @@
+#!/bin/bash
+source ./my-docker.cfg
+cName="web";
+
+cd $envPath
+docker-compose $dConfig stop ${cName}
+docker-compose $dConfig rm -f ${cName}
+docker-compose $dConfig build ${cName}
+docker-compose $dConfig up -d ${cName}
+docker-compose $dConfig restart
+cd ..                  

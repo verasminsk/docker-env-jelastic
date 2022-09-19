@@ -1,0 +1,5 @@
+#!/bin/bash
+source ./my-docker.cfg
+cd $envPath
+docker-compose exec $workDir web bash -c "php bin/console cache:clear -vv -e dev && php bin/console --env=dev cache:warmup && chmod -R a+rwX bin/ public/ var/cache var/log"
+cd ..

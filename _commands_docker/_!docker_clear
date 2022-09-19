@@ -1,0 +1,46 @@
+#!/bin/bash
+
+echo "удаление остановленных контейнеров [1]"
+echo "удаление контейнеров, остановленных более суток назад [2]"
+echo "удаление неиспользуемых (dangling) образов даже с тегами [3]"
+echo "удаление неиспользуемых (dangling) томов [4]"
+echo "удаление неиспользуемых сетей [5]"
+echo "удаление всего [0]"
+echo "exit [enter]"
+
+echo -n "сделайте выбор: "
+
+read item
+
+case $item in
+    1) 
+    # удаление остановленных контейнеров
+    docker container prune
+    docker rm $(docker ps -a -q)
+    ;;
+    2)
+    # удаление контейнеров, остановленных более суток назад
+    docker container prune --filter "until=24h"
+        ;;
+    3)
+    # удаление неиспользуемых (dangling) образов даже с тегами
+    docker image prune -a
+        ;;
+    4)
+    # удаление неиспользуемых (dangling) томов
+    docker volume prune
+        ;;
+    5)
+    # удаление неиспользуемых сетей
+    docker network prune
+        ;;
+    0)
+    # удаление всего
+    docker rm -vf $(docker ps -aq)
+    docker rmi -f $(docker images -aq)
+    docker volume prune -f
+        ;;
+    *) 
+    echo "exit"
+        ;;
+esac

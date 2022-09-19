@@ -1,0 +1,8 @@
+#!/bin/bash
+source ./my-docker.cfg
+cd $envPath
+   docker-compose exec $workDir web php bin/console doctrine:database:drop --force
+   docker-compose exec $workDir web php bin/console doctrine:database:create
+cd ..
+
+

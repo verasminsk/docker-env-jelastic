@@ -1,0 +1,5 @@
+#!/bin/bash
+source ./my-docker.cfg
+cd $envPath
+docker-compose $dConfig exec $workDir web bash
+cd ..

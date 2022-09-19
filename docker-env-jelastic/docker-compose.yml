@@ -1,0 +1,56 @@
+version: "3"
+services:
+    db:
+        image: jelastic/mysql:${JELASTIC_MYSQL_IMAGE_VERSION}
+        container_name: db
+        ports:
+            - ${FORWARDED_PORT_DB_3306}:3306
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ${DB_INIT_PATH}:/docker-entrypoint-initdb.d
+            - ${DB_DATA_PATH}:/var/lib/mysql
+        networks:
+            docker-net:
+                ipv4_address: ${CONTAINER_IP_DB}
+
+    web:
+        container_name: web
+        ports:
+            - ${FORWARDED_PORT_WEB_80}:80
+            - ${FORWARDED_PORT_WEB_433}:433
+        build:
+            context: nginx-php
+            dockerfile: Dockerfile
+            args:
+                JELASTIC_NGINX_IMAGE_VERSION: ${JELASTIC_NGINX_IMAGE_VERSION}
+                BUILD_ARGUMENT_ENV: dev
+        volumes:
+            - ${WEB_APP_PATH}:/var/www/app
+            - ${PHP_CFG_PATH}:/usr/local/etc/php/custom.d
+            - ${WEB_SITES_CFG}:/etc/nginx/conf.d/sites-enabled
+            - ${WEB_NGINX_CONF}:/etc/nginx/nginx.conf
+        environment:
+            PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
+            XDEBUG_REMOTE_PORT: ${XDEBUG_REMOTE_PORT_WEB}
+            XDEBUG_REMOTE_HOST: ${XDEBUG_REMOTE_HOST}
+            XDEBUG_IDEKEY: ${XDEBUG_IDEKEY}
+            PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+            PHP_IDE_CONFIG: serverName=${XDEBUG_SERVER_NAME}
+            EXCLUDES: .svn:.git:.docker
+        links:
+            - db
+        networks:
+            docker-net:
+                ipv4_address: ${CONTAINER_IP_WEB}
+
+networks:
+    docker-net:
+        name: ${NETWORK_NAME}
+        driver: bridge
+        ipam:
+            config:
+                -   subnet: ${NETWORK_SUBNET}
