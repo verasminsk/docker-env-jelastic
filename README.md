@@ -5,7 +5,7 @@ for build env run "./_commands_docker/_!docker-build"
 
 http://localhost:8088/ (app/default)
 
-http://yii.loc:8088/ (app/symfony)
+http://yii.loc:8088/ (app/yii)
 
 http://symfony.loc:8088/ (app/symfony)
 
