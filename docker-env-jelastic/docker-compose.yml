@@ -30,16 +30,12 @@ services:
                 BUILD_ARGUMENT_ENV: dev
         volumes:
             - ${WEB_APP_PATH}:/var/www/app
-            - ${PHP_CFG_PATH}:/usr/local/etc/php/custom.d
+            - ${PHP_CFG_PATH}:/etc/php.d
             - ${WEB_SITES_CFG}:/etc/nginx/conf.d/sites-enabled
             - ${WEB_NGINX_CONF}:/etc/nginx/nginx.conf
         environment:
-            PHP_OPCACHE_VALIDATE_TIMESTAMPS: 1
-            XDEBUG_REMOTE_PORT: ${XDEBUG_REMOTE_PORT_WEB}
-            XDEBUG_REMOTE_HOST: ${XDEBUG_REMOTE_HOST}
-            XDEBUG_IDEKEY: ${XDEBUG_IDEKEY}
-            PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
-            PHP_IDE_CONFIG: serverName=${XDEBUG_SERVER_NAME}
+            PHP_INI_SCAN_DIR: /etc/php.d
+            PHP_IDE_CONFIG: serverName=docker
             EXCLUDES: .svn:.git:.docker
         links:
             - db
