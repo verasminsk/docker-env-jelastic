@@ -1,7 +1,7 @@
 version: "3"
 services:
     db:
-        image: jelastic/mysql:${JELASTIC_MYSQL_IMAGE_VERSION}
+        image: mysql:${MYSQL_IMAGE_VERSION}
         container_name: db
         ports:
             - ${FORWARDED_PORT_DB_3306}:3306
