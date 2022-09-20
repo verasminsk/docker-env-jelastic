@@ -1,7 +1,7 @@
 # docker-env-jelastic
 Jelastic Docker env for local dev (nginx+php &amp;&amp; mysql)
 
-for build env run "./_commands_docker/_!docker-build"
+for build env run _!docker-build in _commands_docker dir
 
 http://localhost:8088/ (app/default)
 
